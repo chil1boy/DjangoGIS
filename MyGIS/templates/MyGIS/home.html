@@ -10,7 +10,9 @@
         <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
     </div>{% endcomment %}
     {% for article in articles %}
-        <h2> {{article.title}}</h2>
-        <p>{{article.text}}</p>
+{% comment %}        <h2> {{article.title}}</h2>
+        <p>{{article.text}}</p>{% endcomment %}
+        <h2>{{article.title}}</h2>
+        <p> {{article.get_short_text |safe }}</p>
     {% endfor %}
 {% endblock %}
