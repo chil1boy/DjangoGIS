@@ -1,3 +1,8 @@
 .margin_top {
     margin-top: 80px !important;
 }
+
+.color_dev{
+    color: burlywood;
+    font-weight: 700;
+}
