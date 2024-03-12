@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from MyGIS.models import Articles
 
@@ -12,4 +12,9 @@ def home(request):
     context = {
         'articles': articles
     }
-    return render(request, 'mygis/home.html', context)
+    return render(request, 'MyGIS/home.html', context)
+
+
+def show_articles(request, article_id):
+    article = get_object_or_404(Articles, id=article_id)
+    return render(request, 'MyGIS/article.html', {'article': article})
