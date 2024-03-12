@@ -22,3 +22,7 @@ def show_articles(request, article_id):
 
 def about(request):
     return render(request, 'MyGIS/about.html')
+
+
+def maps(request):
+    return render(request, 'MyGIS/map.html')
