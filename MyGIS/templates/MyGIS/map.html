@@ -4,8 +4,54 @@
     Map
 {% endblock %}
 
-{% block content %}
-    <h2>Map developmant</h2>
-    <p class="color_dev">Creator: <span>Mohylko Mykola</span></p>
-    <p>@2024 All right reserved</p>
+{% block my_maps %}
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 800px;
+        width: 100%;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.29/"></script>
+
+    <script>
+      require(["esri/config", "esri/Map", "esri/views/MapView","esri/widgets/Locate"], function(esriConfig, Map, MapView, Locate) {
+
+        esriConfig.apiKey = "YOUR_API_KEY";
+
+        const map = new Map({
+          basemap: "hybrid" // basemap styles service
+        });
+
+        const view = new MapView({
+          map: map,
+          center: [30.5234, 50.4501], // Longitude, latitude
+          zoom: 6, // Zoom level
+          container: "viewDiv" // Div element
+        });
+          
+        const locate = new Locate({
+          view: view,
+          useHeadingEnabled: false,
+          goToOverride: function(view, options) {
+            options.target.scale = 1500;
+            return view.goTo(options.target);
+          }
+        });
+        view.ui.add(locate, "top-left");
+
+      });
+    </script>
 {% endblock %}
+
+{% block content %}
+    <div id="viewDiv"></div>
+{% endblock %}
+
+
