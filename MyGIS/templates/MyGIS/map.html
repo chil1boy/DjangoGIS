@@ -5,47 +5,60 @@
 {% endblock %}
 
 {% block my_maps %}
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+    <title>BasemapGallery widget | Sample | ArcGIS Maps SDK for JavaScript 4.29</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
     <style>
       html,
       body,
       #viewDiv {
         padding: 0;
         margin: 0;
-        height: 800px;
+        height: 670px;
         width: 100%;
+        margin-top: -12px;
       }
     </style>
-
-    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css">
     <script src="https://js.arcgis.com/4.29/"></script>
-
     <script>
-      require(["esri/config", "esri/Map", "esri/views/MapView","esri/widgets/Locate"], function(esriConfig, Map, MapView, Locate) {
-
-        esriConfig.apiKey = "YOUR_API_KEY";
-
+      require(["esri/Map", "esri/Basemap", "esri/views/SceneView", "esri/widgets/BasemapGallery"],
+      (
+        Map,
+        Basemap,
+        SceneView,
+        BasemapGallery
+      ) => {
         const map = new Map({
-          basemap: "hybrid" // basemap styles service
+          basemap: new Basemap({
+            portalItem: {
+              id: "0560e29930dc4d5ebeb58c635c0909c9" // References the 3D Topographic Basemap
+            }
+          })
         });
 
-        const view = new MapView({
+        const view = new SceneView({
+          container: "viewDiv",
           map: map,
-          center: [30.5234, 50.4501], // Longitude, latitude
-          zoom: 6, // Zoom level
-          container: "viewDiv" // Div element
+          camera: {
+            position: {
+              longitude: -74.03423765,
+              latitude: 40.69173202,
+              z: 1620.71497
+            },
+            heading: 57.02,
+            tilt: 56.97
+          } // Manhattan, NY
         });
-          
-        const locate = new Locate({
-          view: view,
-          useHeadingEnabled: false,
-          goToOverride: function(view, options) {
-            options.target.scale = 1500;
-            return view.goTo(options.target);
-          }
-        });
-        view.ui.add(locate, "top-left");
 
+        const basemapGallery = new BasemapGallery({
+          view: view
+        });
+
+        // Add the widget to the top-right corner of the view
+        view.ui.add(basemapGallery, {
+          position: "top-right"
+        });
       });
     </script>
 {% endblock %}
